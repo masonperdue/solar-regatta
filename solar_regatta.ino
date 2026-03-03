@@ -3,14 +3,12 @@
 
 #define batCapacity 32400.0       // As = 9 Ah * 60 min/h * 60 s/min; Should be adjusted after testing
 
-float voltsToAmps(float currentVolts, float zeroVolts);
-
 // Create ADC objects
 Adafruit_ADS1115 adc2;  // ADDR to VCC; Batteries & Panels
 Adafruit_ADS1115 adc1;  // ADDR to GND; Motors
 
-  // Define variables
-  float batCapRemaining = batCapacity;    // As
+// Define variables
+float batCapRemaining = batCapacity;    // As
 
 void setup(void)
 {
@@ -26,13 +24,13 @@ void setup(void)
   if (!adc1.begin(0x48))
   {
     Serial.println("Failed to initialize ADS 1.");
-    while (1);
+    // while (1);
   }
 
   if (!adc2.begin(0x49))
   {
     Serial.println("Failed to initialize ADS 2.");
-    while (1);
+    // while (1);
   } 
 }
 
