@@ -1,7 +1,7 @@
 #include <Wire.h> // I2C Library
 #include <Adafruit_ADS1X15.h>
 
-#define batCapacity 32400.0 // As = 9 Ah * 60 min/h * 60 s/min; Should be adjusted after testing
+#define batCapacity 34200.0 // As = 9.5 Ah * 60 min/h * 60 s/min; Should be adjusted after testing
 
 // Create ADC objects
 Adafruit_ADS1115 adc; // ADDR to GND
@@ -17,7 +17,7 @@ float volts_sol = 0.0;
 float amps_div = 0.0;
 float amps_bat = 0.0;
 float amps_sol = 0.0;
-float batSoC = 0.0;
+float batSoC = 100.0;
 
 void setup(void)
 {
@@ -29,25 +29,13 @@ void setup(void)
   adc.setGain(GAIN_TWOTHIRDS);
 
   // Initialize ADC
-  if (!adc.begin(0x48))
+  while (!adc.begin(0x48))
   {
     Serial.println("Failed to initialize ADC.");
   }
 }
 
 void loop(void)
-{
-  monitorCurrent();
-
-  // monitorBatteries();
-}
-
-float voltsToAmps(float currentVolts, float zeroVolts)
-{
-  return ((currentVolts - zeroVolts) * 1000) / 40;  // difference in measured and resting voltage times 1000 to get mV and divided by 40 mV/A
-}
-
-void monitorCurrent()
 {
   // Read each analog input pin single-ended (10 times in a second)
   for (int i = 0; i < 10; i++)
@@ -83,21 +71,17 @@ void monitorCurrent()
 
   // Print analog inputs and calculated voltages to serial
   Serial.println("---------");
-  Serial.print("Battery: "); Serial.print(amps_bat); Serial.print("A\tSoC: "); Serial.print(batSoC); Serial.println("%");
-  Serial.print("Solar: "); Serial.print(amps_sol); Serial.println("A");
+  Serial.print("Battery:  "); Serial.print(amps_bat); Serial.print("A  SoC: "); Serial.print(batSoC); Serial.println("%");
+  Serial.print("Solar:  "); Serial.print(amps_sol); Serial.println("A");
 }
 
-// void monitorBatteries()
-// {
-
-// }
-
-
+float voltsToAmps(float currentVolts, float zeroVolts)
+{
+  return ((currentVolts - zeroVolts) * 1000) / 40;  // difference in measured and resting voltage times 1000 to get mV and divided by 40 mV/A
+}
 
 
-
-
-
+ 
 
 
 
