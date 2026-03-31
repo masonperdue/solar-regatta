@@ -37,6 +37,11 @@ void setup(void)
 
 void loop(void)
 {
+  // Reset input variables
+  adc_ain0_div = 0;
+  adc_ain1_bat = 0;
+  adc_ain2_sol = 0;
+
   // Read each analog input pin single-ended (10 times in a second)
   for (int i = 0; i < 10; i++)
   {
