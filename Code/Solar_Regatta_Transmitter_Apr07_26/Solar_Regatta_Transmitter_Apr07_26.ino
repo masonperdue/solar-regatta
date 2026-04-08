@@ -5,7 +5,6 @@
 #include <esp_wifi.h> // used for: wireless data transmission
 #include <OneWire.h> // used for: Temp Sensor
 #include <DallasTemperature.h> // used for: Temp Sensor
-#include <esp_event.h>
 
 // -----------------
 //    Definitions
@@ -14,7 +13,7 @@
 #define samplesPerSecond 10 
 
 // Pin definitions
-#define tempPin 2
+#define tempPin 4
 #define relayPin 11
 #define SDA_PIN 8
 #define SCL_PIN 9
@@ -40,7 +39,7 @@ DallasTemperature tempSensor(&oneWire);
 // -----------------------------------------
 //    Variable Declaration/Initialization
 // -----------------------------------------
-uint8_t receiverAddress[] = {0xAC, 0xA7, 0x04, 0x12, 0x64, 0x8C}; // address of ESP to receive data
+uint8_t receiverAddress[] = {0xac, 0xa7, 0x04, 0x12, 0x64, 0x8c}; // address of ESP to receive data 
 float batCapRemaining = batCapacity;  
 long adc_ain0_div = 0;
 long adc_ain0_div2 = 0;
@@ -116,7 +115,7 @@ void setup(void)
   // Start/Disconnect wifi to finish initialization
   esp_wifi_start();
   esp_wifi_disconnect();
-  
+
   // Initialize ADC, temperature sensor, and ESP-NOW
   tempSensor.begin();
   while (!adc.begin(0x48))
@@ -124,16 +123,12 @@ void setup(void)
     Serial.println("Failed to initialize ADC.");
     delay(200);
   }
-  esp_err_t result = esp_now_init();
-  Serial.println(ESP_OK);
-  while (result != ESP_OK) {
+  while (!esp_now_init()) 
+  {
     Serial.println("ESP-NOW initialization failed");
     delay(200);
-    result = esp_now_init();
   }
-  esp_now_register_send_cb(transmissionComplete);
 
-  Serial.println("ESP-NOW initialized successfully");
   // Peer info
   esp_now_peer_info_t peer = {};
   memcpy(peer.peer_addr, receiverAddress, 6);
@@ -177,8 +172,8 @@ void loop(void)
 // -------------------------------------
 
 // Reads voltage values from the ADC
-void monitorCurrent()
-{
+void monitorCurrent() {
+  
   // Read each analog input pin single-ended 
   adc_ain0_div += adc.readADC_SingleEnded(0);
   adc_ain1_bat += adc.readADC_SingleEnded(1);
@@ -189,6 +184,7 @@ void monitorCurrent()
 // Checks the voltage of the battery, includes total delay of 20ms
 void monitorVoltage()
 {
+
   // Average 10 readings from the voltage divider
   // NOTE: Since this method requires quicker measurements/reactions than
   //       our current monitoring, a second divider variable is used
@@ -304,15 +300,5 @@ void sendData() {
 
   // Send Data
   esp_now_send(receiverAddress, (uint8_t *) &packet, sizeof(packet));
+
 }
-
-
-
-
-
-
-
-
-
-
-
