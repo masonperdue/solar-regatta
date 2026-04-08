@@ -138,6 +138,7 @@ class SolCurrentCharacteristicCallbacks : public BLECharacteristicCallbacks {
 
 // Relay State characteristc callbacks
 class RelayStateCharacteristicCallbacks : public BLECharacteristicCallbacks {
+
   // Updates state variable on an attempted read
   void onRead(BLECharacteristic *pRelayStateCharacteristic) {
     pRelayStateCharacteristic->setValue(currPacket.relayState ? "Closed" : "Open");
@@ -146,6 +147,7 @@ class RelayStateCharacteristicCallbacks : public BLECharacteristicCallbacks {
 };
 
 class ErrorCharacteristicCallbacks : public BLECharacteristicCallbacks {
+
   // Updates current variable on an attempted read
   void onRead(BLECharacteristic *pErrorCharacteristic) {
     // Updates text to current error
@@ -311,6 +313,7 @@ void setup() {
 
   // End of Characteristics --------------------------------------------------------
 
+
   Serial.println("Initialized.");
 
   // Start server and device advertising once initialized
@@ -319,6 +322,7 @@ void setup() {
 }
 
 void loop() {
+  
   // update data if a user is connected
   if (deviceConnected) {
     updateUser();
@@ -356,6 +360,7 @@ void updateUser() {
   pBatCurrentCharacteristic->notify();
   pSolCurrentCharacteristic->notify();
   pRelayStateCharacteristic->notify();
+
 }
 
 // ----------------------------------------
@@ -367,12 +372,12 @@ void displayData(dataPacket packet, char *macAddr) {
 
   // Upper Serial Divider
   Serial.println();
-  Serial.println("----------------------------------------------------------------------");
+  Serial.println("-----------------------");
 
   Serial.printf("Receiving Data from: %s\n\n", macAddr);
   
-  Serial.printf("Battery Life:    %.2f%% | Voltage: %.2f V, Temp: %.1f C\n", packet.batSoC, packet.batVolt, packet.batTempC);
-  Serial.printf("Battery Current: %.2f A | Solar Current: %.2f A\n", packet.ampsBat, packet.ampsSol);
+  Serial.printf("Battery Life: %.2f%%\nVoltage: %.2f V\nTemp: %.1f C\n", packet.batSoC, packet.batVolt, packet.batTempC);
+  Serial.printf("Battery Current: %.2f A\nSolar Current: %.2f A\n", packet.ampsBat, packet.ampsSol);
   Serial.printf("Relay is: %s\n", packet.relayState ? "Closed" : "Open");
 
   // Displays Errors according to Error Code
@@ -382,17 +387,20 @@ void displayData(dataPacket packet, char *macAddr) {
 
     // Print the error corresponding to the error code
     Serial.println(retrieveError(packet.err));
+
   }
 
   // Lower Serial Divider
   Serial.println();
-  Serial.println("----------------------------------------------------------------------");
+  Serial.println("-----------------------");
+
 }
 
 // ----------------------------------------------------
 //           Retrieve Error (from error code)
 // ----------------------------------------------------
 const char* retrieveError(int err) {
+
   switch (err) {
     case 0:
       return "No Error";
