@@ -1,0 +1,2 @@
+Reciever MAC: ac:a7:04:12:64:8c
+SERVICE_UUID: ee052fcc-a927-4537-9570-c4ee8f66e6f4
