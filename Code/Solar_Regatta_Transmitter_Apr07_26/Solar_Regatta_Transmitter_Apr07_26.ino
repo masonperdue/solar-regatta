@@ -42,7 +42,6 @@ DallasTemperature tempSensor(&oneWire);
 uint8_t receiverAddress[] = {0xac, 0xa7, 0x04, 0x12, 0x64, 0x8c}; // address of ESP to receive data 
 float batCapRemaining = batCapacity;  
 long adc_ain0_div = 0;
-long adc_ain0_div2 = 0;
 long adc_ain1_bat = 0;
 long adc_ain2_sol = 0;
 long adc_ain3_pack = 0;
@@ -112,18 +111,21 @@ void setup(void)
   esp_wifi_set_mode(WIFI_MODE_STA);
   esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_LR);
 
+
   // Start/Disconnect wifi to finish initialization
   esp_wifi_start();
   esp_wifi_disconnect();
 
   // Initialize ADC, temperature sensor, and ESP-NOW
   tempSensor.begin();
+  tempSensor.setWaitForConversion(false);
+  tempSensor.setResolution(12);
   while (!adc.begin(0x48))
   {
     Serial.println("Failed to initialize ADC.");
     delay(200);
   }
-  while (!esp_now_init()) 
+  while (esp_now_init()) 
   {
     Serial.println("ESP-NOW initialization failed");
     delay(200);
@@ -152,7 +154,6 @@ void loop(void)
   // Run each Monitoring function
   monitorCurrent();
   monitorVoltage(); // Includes delay of 20 ms
-  monitorTemperature();
 
   // Turn relay on or off depending on the battery voltage and temperature
   relayState = voltageOK && tempOK;
@@ -160,9 +161,12 @@ void loop(void)
 
   samples++;
   // If all samples have been taken, reset sample count and send data
-  if (samples == samplesPerSecond) {
-    samples = 0;
+  if (samples % samplesPerSecond == 0) {
     sendData();
+  }
+  if (samples == samplesPerSecond * 3) {
+    samples = 0;
+    monitorTemperature();
   }
   delay((1000 / samplesPerSecond) - 20);  // Delays based on the samples per second (minus monitorVoltage() delay)
 }
@@ -189,17 +193,14 @@ void monitorVoltage()
   // NOTE: Since this method requires quicker measurements/reactions than
   //       our current monitoring, a second divider variable is used
   adc_ain3_pack = 0;
-  adc_ain0_div2 = 0;
   for (int i =0; i < 10; i++) {
     adc_ain3_pack += adc.readADC_SingleEnded(3);
-    adc_ain0_div2 += adc.readADC_SingleEnded(0);
     delay(2);
   }
   adc_ain3_pack /= 10;
-  adc_ain0_div2 /= 10;
 
   // Converts the adc reading to volts, then converts to battery voltage using volt divider values
-  batVolt = (adc.computeVolts(adc_ain3_pack) - adc.computeVolts(adc_ain0_div2)) * ((R1 + R2) / R2);
+  batVolt = adc.computeVolts(adc_ain3_pack) * ((R1 + R2) / R2);
 
   // Check if voltage is within safe range
   checkVoltageWithHysteresis();
@@ -268,7 +269,9 @@ void computeCurrent() {
   }
 
   // Reset tracking variables to zero
-  adc_ain0_div = adc_ain1_bat = adc_ain2_sol = 0;
+  adc_ain0_div = 0;
+  adc_ain1_bat = 0;
+  adc_ain2_sol = 0;
 }
 
 // Converts ADC voltage readings to amperes
