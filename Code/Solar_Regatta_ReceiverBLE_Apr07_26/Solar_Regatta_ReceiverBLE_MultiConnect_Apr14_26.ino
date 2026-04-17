@@ -313,7 +313,7 @@ void displayData(dataPacket packet, char *macAddr) {
   Serial.println("-----------------------");
 
   Serial.printf("Receiving Data from: %s\n\n", macAddr);
-  Serial.printf("Time Received: %.2f:%2.2f\n", timeElapsed / (60 * 1000), (timeElapsed / 1000) % 60);
+  Serial.printf("Time Received: %2lu:%2lu\n", timeElapsed / (60 * 1000), (timeElapsed / 1000) % 60);
   
   Serial.printf("Battery Life: %.2f%%\nVoltage: %.2f V\n", packet.batSoC, packet.batVolt);
   Serial.printf("Battery Current: %.2f A\nSolar Current: %.2f A\n", packet.ampsBat, packet.ampsSol);
