@@ -21,7 +21,7 @@
 
 // Limits
 #define voltageHys 0.15
-#define currDrainThreshold 0.2
+#define currDrainThreshold 0.75 // No Motor connection draws a max of 0.60A
 
 // ---------------------
 //    Object Creation
