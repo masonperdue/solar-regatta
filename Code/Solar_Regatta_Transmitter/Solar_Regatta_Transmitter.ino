@@ -1,6 +1,6 @@
 // Library Includes
 #include <Wire.h> // I2C Library
-#include <Adafruit_ADS1X15.h>
+#include <Adafruit_ADS1X15.h> // ADC Library
 #include <esp_now.h> // used for: wireless data transmission
 #include <esp_wifi.h> // used for: wireless data transmission
 
@@ -21,12 +21,12 @@
 
 // Limits
 #define voltageHys 0.15
-#define currDrainThreshold 0.75 // No Motor connection draws a max of 0.60A
+#define currDrainThreshold 0.75 // No motor connection draws a phantom current max of 0.60A
 
 // ---------------------
 //    Object Creation
 // ---------------------
-Adafruit_ADS1115 adc; // ADDR to GND | 0 = div, 1 = bat, 2 = sol, 3 = volt div
+Adafruit_ADS1115 adc; // ADDR to GND | 0 = ref div, 1 = bat, 2 = sol, 3 = bat div
 
 // -----------------------------------------
 //    Variable Declaration/Initialization
@@ -149,23 +149,19 @@ void loop(void)
 
 // Reads voltage values from the ADC
 void monitorCurrent() {
-  
   // Read each analog input pin single-ended 
   adc_ain0_div += adc.readADC_SingleEnded(0);
   adc_ain1_bat += adc.readADC_SingleEnded(1);
-  adc_ain2_sol += adc.readADC_SingleEnded(2);
-  
+  adc_ain2_sol += adc.readADC_SingleEnded(2); 
 }
 
 // Checks the voltage of the battery, includes total delay of 20ms
 void monitorVoltage()
 {
-
   adc_ain3_pack = adc.readADC_SingleEnded(3);
 
   // Converts the adc reading to volts, then converts to battery voltage using volt divider values
   batVolt = (batVolt * VOLTAGE_AVERAGING_FACTOR) + ((1 - VOLTAGE_AVERAGING_FACTOR) * adc.computeVolts(adc_ain3_pack) * ((R1 + R2) / R2));
-
 }
 
 // -------------------------------------

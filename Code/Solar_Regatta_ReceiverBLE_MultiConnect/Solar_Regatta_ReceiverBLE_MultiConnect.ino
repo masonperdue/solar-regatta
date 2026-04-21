@@ -73,7 +73,6 @@ class MyServerCallbacks: public BLEServerCallbacks {
       if (devicesConnected < MAX_CONNECTIONS) {
         BLEDevice::startAdvertising();
       }
-
     };
 
     void onDisconnect(BLEServer* pServer) {
@@ -101,7 +100,6 @@ class VoltageCharacteristicCallbacks : public BLECharacteristicCallbacks {
     sprintf(temp, "%.2f V", currPacket.batVolt); // Creates a UTF-8 version of float for display
     pVoltageCharacteristic->setValue(temp);
   }
-
 };
 
 // Battery Charge characteristc callbacks
@@ -113,7 +111,6 @@ class ChargeCharacteristicCallbacks : public BLECharacteristicCallbacks {
     sprintf(temp, "%.2f%%", currPacket.batSoC); // Creates a UTF-8 version of float for display
     pChargeCharacteristic->setValue(temp);
   }
-
 };
 
 // Battery Current characteristc callbacks
@@ -125,7 +122,6 @@ class BatCurrentCharacteristicCallbacks : public BLECharacteristicCallbacks {
     sprintf(temp, "%.2f  A", currPacket.ampsBat); // Creates a UTF-8 version of float for display
     pBatCurrentCharacteristic->setValue(temp);
   }
-
 };
 
 // Solar Current characteristc callbacks
@@ -137,7 +133,6 @@ class SolCurrentCharacteristicCallbacks : public BLECharacteristicCallbacks {
     sprintf(temp, "%.2f  A", currPacket.ampsSol); // Creates a UTF-8 version of float for display
     pSolCurrentCharacteristic->setValue(temp);
   }
-
 };
 
 // --------------------------------
@@ -296,7 +291,6 @@ void updateUser() {
   pChargeCharacteristic->notify();
   pBatCurrentCharacteristic->notify();
   pSolCurrentCharacteristic->notify();
-
 }
 
 // ----------------------------------------
@@ -310,16 +304,18 @@ void displayData(dataPacket packet, char *macAddr) {
 
   // Upper Serial Divider
   Serial.println();
-  Serial.println("-----------------------");
+  Serial.println("---");
 
-  Serial.printf("Receiving Data from: %s\n\n", macAddr);
-  Serial.printf("Time Received: %2lu:%2lu\n", timeElapsed / (60 * 1000), (timeElapsed / 1000) % 60);
-  
-  Serial.printf("Battery Life: %.2f%%\nVoltage: %.2f V\n", packet.batSoC, packet.batVolt);
-  Serial.printf("Battery Current: %.2f A\nSolar Current: %.2f A\n", packet.ampsBat, packet.ampsSol);
-
-  // Lower Serial Divider
-  Serial.println();
-  Serial.println("-----------------------");
-
+  Serial.printf("TX MAC: %s\n", macAddr);
+  Serial.printf("Time: 00:%02lu:%02lu\n", timeElapsed / (60 * 1000), (timeElapsed / 1000) % 60);
+  Serial.printf("SoC (%%): %.2f\nBat Voltage (V): %.2f\n", packet.batSoC, packet.batVolt);
+  Serial.printf("Bat Current (A): %.2f\nSol Current (A): %.2f\n", packet.ampsBat, packet.ampsSol);
 }
+
+
+
+
+
+
+
+
