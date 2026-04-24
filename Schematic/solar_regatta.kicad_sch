@@ -4894,6 +4894,17 @@
 	)
 	(wire
 		(pts
+			(xy 179.07 34.29) (xy 181.61 34.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 204 102 0 1)
+		)
+		(uuid "d8ced0ce-b41e-4530-8156-d446a836a5de")
+	)
+	(wire
+		(pts
 			(xy 130.81 63.5) (xy 132.08 63.5)
 		)
 		(stroke
@@ -4932,6 +4943,16 @@
 			(type default)
 		)
 		(uuid "db0aa906-8778-4f1b-81c9-2ef7afce525f")
+	)
+	(wire
+		(pts
+			(xy 222.25 72.39) (xy 222.25 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de80b7c9-5431-44a5-9443-eabffa092ceb")
 	)
 	(wire
 		(pts
@@ -5856,6 +5877,72 @@
 			(project ""
 				(path "/480c4401-87bc-49c2-9123-39a17b8fd968"
 					(reference "ACS1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 222.25 72.39 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4e462a05-5dba-4377-b6d3-50b9615ea043")
+		(property "Reference" "#PWR05"
+			(at 222.25 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 222.25 69.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 222.25 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 222.25 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 222.25 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ef3f088e-e02e-4d13-88d7-d77af4434203")
+		)
+		(instances
+			(project "solar_regatta"
+				(path "/480c4401-87bc-49c2-9123-39a17b8fd968"
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -6843,6 +6930,72 @@
 			(project ""
 				(path "/480c4401-87bc-49c2-9123-39a17b8fd968"
 					(reference "#PWR011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 179.07 34.29 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "983c5a8d-0bfe-4d66-8094-79fd66c48b0c")
+		(property "Reference" "#PWR06"
+			(at 172.72 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 176.53 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 179.07 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 179.07 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 179.07 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3b99683b-5d58-46ec-9fb0-c439b663a2c7")
+		)
+		(instances
+			(project "solar_regatta"
+				(path "/480c4401-87bc-49c2-9123-39a17b8fd968"
+					(reference "#PWR06")
 					(unit 1)
 				)
 			)
