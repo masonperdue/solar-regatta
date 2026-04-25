@@ -222,5 +222,4 @@ void sendData() {
 
   // Send Data
   esp_now_send(receiverAddress, (uint8_t *) &packet, sizeof(packet));
-
 }
