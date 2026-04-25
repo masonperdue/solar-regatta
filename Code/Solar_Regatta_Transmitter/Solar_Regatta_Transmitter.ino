@@ -12,8 +12,8 @@
 #define samplesPerSecond 10 
 
 // Pin definition
-#define SDA_PIN 8
-#define SCL_PIN 9
+#define SDA_PIN 7
+#define SCL_PIN 6
 
 // Voltage divider values
 #define R1 1000000.0
