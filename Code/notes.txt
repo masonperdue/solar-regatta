@@ -2,3 +2,13 @@ Unfried Reciever MAC: ac:a7:04:12:64:8c
 SERVICE_UUID: ee052fcc-a927-4537-9570-c4ee8f66e6f4
 
 Fried New Receiver MAC: ac:a7:04:ee:19:4c
+
+Ethernet Color Designations
+Red <-- 22.4 Volt Battery connection (22.4)
+Black <-- 22.4 Battery Ground (GND)
+Orange <-- 5V Battery Current Sensor (5V)
+Purple <-- 5V Solar Current Sensor (5V)
+Green <-- GND Battery Current Sensor (GND)
+Blue <-- GND Solar Current Sensor (GND)
+Brown <-- Battery Currrent Sensor (A1)
+Grey <-- Solar Current Sensor (A2)
