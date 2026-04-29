@@ -31,7 +31,7 @@ Adafruit_ADS1115 adc; // ADDR to GND | 0 = ref div, 1 = bat, 2 = sol, 3 = bat di
 // -----------------------------------------
 //    Variable Declaration/Initialization
 // -----------------------------------------
-uint8_t receiverAddress[] = {0xac, 0xa7, 0x04, 0xee, 0x19, 0x4c}; // address of ESP to receive data 
+uint8_t receiverAddress[] = {0xac, 0xa7, 0x04, 0x12, 0x64, 0x8c}; // address of ESP to receive data 
 float batCapRemaining = batCapacity;  
 long adc_ain0_div = 0;
 long adc_ain1_bat = 0;
